@@ -15,3 +15,13 @@ CREATE TABLE users
 	updated_at timestamp NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp,
 	PRIMARY KEY (id)
 ) engine = InnoDB;
+
+ALTER TABLE users
+   rename column name to first_name;
+
+ALTER TABLE users
+  ADD COLUMN middle_name varchar(100) null after first_name;
+
+ALTER TABLE users
+  ADD COLUMN last_name
+  AFTER middle_name;
