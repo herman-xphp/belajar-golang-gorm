@@ -23,5 +23,5 @@ ALTER TABLE users
   ADD COLUMN middle_name varchar(100) null after first_name;
 
 ALTER TABLE users
-  ADD COLUMN last_name
+  ADD COLUMN last_name varchar(100) null
   AFTER middle_name;
