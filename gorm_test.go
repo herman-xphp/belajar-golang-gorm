@@ -342,3 +342,16 @@ func TestUpdateSelectedColumns(t *testing.T) {
 	}).Error
 	assert.Nil(t, err)
 }
+
+func TestAutoIncrement(t *testing.T) {
+	for range 10 {
+		userLog := UserLog{
+			UserId: "1",
+			Action: "Test Action",
+		}
+		result := db.Create(&userLog)
+		assert.Nil(t, result.Error)
+		assert.NotEqual(t, 0, userLog.ID)
+		fmt.Println(userLog.ID)
+	}
+}

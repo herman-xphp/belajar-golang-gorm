@@ -25,3 +25,13 @@ ALTER TABLE users
 ALTER TABLE users
   ADD COLUMN last_name varchar(100) null
   AFTER middle_name;
+
+create table user_logs
+(
+  id int not null auto_increment,
+  user_id varchar(100) not null,
+  action varchar(100) not null,
+  created_at timestamp not null default current_timestamp,
+  updated_at timestamp not null default current_timestamp on update current_timestamp,
+  PRIMARY KEY(id)
+) engine = InnoDB;
