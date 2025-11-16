@@ -1,6 +1,7 @@
 package belajar_golang_gorm
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 	"testing"
@@ -778,4 +779,13 @@ func TestAggregationGroupByAndHaving(t *testing.T) {
 	err := db.Model(&Wallet{}).Select("sum(balance) as total_balance", "min(balance) as min_balance", "max(balance) as max_balance", "avg(balance) as avg_balance").Joins("User").Group("User.id").Having("sum(balance) > ?", "500000").Find(&result).Error
 	assert.Nil(t, err)
 	assert.Equal(t, 3, len(result))
+}
+
+func TestContext(t *testing.T) {
+	ctx := context.Background()
+
+	var users []User
+	err := db.WithContext(ctx).Find(&users).Error
+	assert.Nil(t, err)
+	assert.Equal(t, 17, len(users))
 }
