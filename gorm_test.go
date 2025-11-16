@@ -695,3 +695,36 @@ func TestAssociationClear(t *testing.T) {
 	})
 	assert.Nil(t, err)
 }
+
+func TestPreloadingWithCondition(t *testing.T) {
+	err := db.Transaction(func(tx *gorm.DB) error {
+		var user User
+		err := tx.Preload("Wallet", "balance > ?", 10000).Take(&user, "id = ?", "1").Error
+
+		fmt.Println(user)
+		return err
+	})
+	assert.Nil(t, err)
+}
+
+func TestPreloadingNested(t *testing.T) {
+	err := db.Transaction(func(tx *gorm.DB) error {
+		var wallet Wallet
+		err := tx.Preload("User.Addresses").Take(&wallet, "id = ?", "1").Error
+
+		fmt.Println(wallet)
+		fmt.Println(wallet.User)
+		fmt.Println(wallet.User.Addresses)
+		return err
+	})
+	assert.Nil(t, err)
+}
+
+func TestPreloadingAll(t *testing.T) {
+	err := db.Transaction(func(tx *gorm.DB) error {
+		var user User
+		err := tx.Preload(clause.Associations).Take(&user, "id = ?", "1").Error
+		return err
+	})
+	assert.Nil(t, err)
+}
